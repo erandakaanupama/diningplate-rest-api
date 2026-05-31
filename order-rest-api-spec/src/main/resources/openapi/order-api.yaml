@@ -101,6 +101,26 @@ paths:
           $ref: '#/components/responses/Conflict'
 
   /menu:
+    post:
+      summary: Create a new menu item
+      operationId: createMenuItem
+      tags: [Menu]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateMenuItemRequest'
+      responses:
+        '201':
+          description: Menu item created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MenuItem'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+
     get:
       summary: List menu items
       operationId: listMenuItems
@@ -284,6 +304,24 @@ components:
           $ref: '#/components/schemas/MenuCategory'
         available:
           type: boolean
+
+    CreateMenuItemRequest:
+      type: object
+      required: [name, price, category]
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        price:
+          type: number
+          format: double
+          minimum: 0
+        category:
+          $ref: '#/components/schemas/MenuCategory'
+        available:
+          type: boolean
+          default: true
 
     MenuCategory:
       type: string
